@@ -9,7 +9,11 @@
           <th>Duration</th>
           <th>ReleaseDate</th>
           <th>Genre</th>
-          <th></th>
+          <th>
+            Selected {{ selected.length }}
+            <button class="btn btn-outline-warning btn-sm" @click="selectAllMovies">All</button>
+            <button class="btn btn-outline-danger btn-sm" @click="deselectAllMovies">X</button>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -40,21 +44,24 @@ import { mapActions, mapGetters } from 'vuex'
 import MovieRow from './MovieRow'
 export default {
     name: 'AppMovie',
-    // async created(){
-    //   await this.getMovies()
-    // },
     components: { MovieRow },
     computed: {
-        ...mapGetters(['moviesForCurrentPage', 'searchedMovies', 'searchTerm', 'currentPage'])
+        ...mapGetters(['moviesForCurrentPage', 'searchedMovies', 'searchTerm', 'currentPage', 'selected'])
     },
     methods: {
-        ...mapActions(['getMovies', 'prevPage', 'nextPage']),
+        ...mapActions(['getMovies', 'prevPage', 'nextPage', 'setSelectedAllMovies', 'setDeselectedAllMovies']),
         paginatePrev() {
           this.prevPage();
-          },
+        },
         paginateNext() {
           this.nextPage();
-          }
+        },
+        selectAllMovies(){
+          this.setSelectedAllMovies()
+        },
+        deselectAllMovies(){
+          this.setDeselectedAllMovies()
+        },
     },
     beforeRouteEnter(to, from, next) {
             next(vm => vm.getMovies());
