@@ -13,9 +13,14 @@
         </tr>
       </thead>
       <tbody>
-        <movie-row v-for="MovieRow in movies" :key="MovieRow.id" :movie="MovieRow" />
+        <movie-row v-for="MovieRow in moviesForCurrentPage" :key="MovieRow.id" :movie="MovieRow" />
       </tbody>
     </table>
+    <div v-if="!searchedMovies(searchTerm).length" class="container">
+      <div class="alert alert-danger" role="alert">
+       <h4>No search resault for: {{ searchTerm }}</h4>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -29,7 +34,7 @@ export default {
     // },
     components: { MovieRow },
     computed: {
-        ...mapGetters(['movies'])
+        ...mapGetters(['moviesForCurrentPage', 'searchedMovies', 'searchTerm'])
     },
     methods: {
         ...mapActions(['getMovies'])
