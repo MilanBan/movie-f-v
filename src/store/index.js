@@ -55,6 +55,18 @@ export default new Vuex.Store({
     },
     setDeselectedAllMovies(state) {
       state.selected = []
+    },
+    sortMovies(state, { type, isAsc}){
+      state.movies.sort((movie1, movie2) => {
+        if(movie1[type] > movie2[type]){
+          return 1
+        }if(movie1[type] < movie2[type]){
+          return -1
+        }return 0
+      })
+      if(!isAsc){
+        state.movies.reverse()
+      }
     }
 
   },
@@ -80,6 +92,9 @@ export default new Vuex.Store({
     },
     setDeselectedAllMovies({commit}) {
       commit('setDeselectedAllMovies')
+    },
+    sortMovies({ commit }, sortConfig){
+      commit('sortMovies', sortConfig)
     }
   }
 })
