@@ -21,6 +21,17 @@
        <h4>No search resault for: {{ searchTerm }}</h4>
       </div>
     </div>
+    <ul class="pagination">
+      <li class="page-item">
+        <button @click="paginatePrev" class="page-link">Previous</button>
+      </li>
+      <li class="page-item active">
+        <p class="page-link" >{{currentPage}}</p>
+      </li>
+      <li class="page-item">
+        <button @click="paginateNext" class="page-link">Next</button>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -34,10 +45,16 @@ export default {
     // },
     components: { MovieRow },
     computed: {
-        ...mapGetters(['moviesForCurrentPage', 'searchedMovies', 'searchTerm'])
+        ...mapGetters(['moviesForCurrentPage', 'searchedMovies', 'searchTerm', 'currentPage'])
     },
     methods: {
-        ...mapActions(['getMovies'])
+        ...mapActions(['getMovies', 'prevPage', 'nextPage']),
+        paginatePrev() {
+          this.prevPage();
+          },
+        paginateNext() {
+          this.nextPage();
+          }
     },
     beforeRouteEnter(to, from, next) {
             next(vm => vm.getMovies());
